@@ -65,5 +65,6 @@ function UserRoutes(app) {
 	app.post("/api/users/signin", signin);
 	app.post("/api/users/signout", signout);
 	app.post("/api/users/account", account);
+	app.post("/api/users/:userId/follow", follow);
 }
 export default UserRoutes;

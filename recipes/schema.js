@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
-const RecipeSchema = new mongoose.Schema(
+const recipeSchema = new mongoose.Schema(
 	{
 		name: { type: String, required: true },
 		description: String,
-		last: String,
 		ingredients: [
 			{
 				name: String,
@@ -11,8 +10,15 @@ const RecipeSchema = new mongoose.Schema(
 			}
 		],
 
-		likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }] // use $addToSet to add to this array to avoid duplicates
+		likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }], // use $addToSet to add to this array to avoid duplicates
+		comments: [
+			{
+				
+				text: { type: String, trim: true },
+				author: { type: mongoose.Schema.Types.ObjectId, ref: "users" }
+			}
+		]
 	},
-	{ collection: "users" }
+	{ collection: "recipes" }
 );
-export default userSchema;
+export default recipeSchema;

@@ -11,6 +11,6 @@ const recipeSchema = new mongoose.Schema(
 		followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],
 		following: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }]
 	},
-	{ collection: "recipes" }
+	{ collection: "users" }
 );
 export default recipeSchema;
