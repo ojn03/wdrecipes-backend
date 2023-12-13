@@ -18,7 +18,6 @@ function UserRoutes(app) {
 		const user = await dao.findUserById(req.params.userId);
 		res.json(user);
 	};
-
 	const updateUser = async (req, res) => {
 		const { userId } = req.params;
 		const status = await dao.updateUser(userId, req.body);
@@ -55,16 +54,57 @@ function UserRoutes(app) {
         // add to following
         res.json(status);
     }
+	const unfollow = async (req, res) => {
+		const { userId } = req.params;
+		const { currentUser } = req.session;
+		const status = await dao.unfollow(currentUser._id, userId);
+		// remove from following
+		res.json(status);
+	}
+	const findAllLikedRecipes = async (req, res) => {
+		const { userId } = req.params;
+		const recipes = await dao.findAllLikedRecipes(userId);
+		res.json(recipes);
+	}
+	const addLike = async (req, res) => {
+		const { userId } = req.params;
+		const { recipeId } = req.body;
+		const status = await dao.likeRecipe(userId, recipeId);
+		res.json(status);
+	}
+	const deleteLike = async (req, res) => {
+		const { userId } = req.params;
+		const { recipeId } = req.body;
+		const status = await dao.unlikeRecipe(userId, recipeId);
+		res.json(status);
+	}
+	const findFollowing = async (req, res) => {
+		const { userId } = req.params;
+		const users = await dao.findAllFollowing(userId);
+		res.json(users);
+	}
+	const findFollowers = async (req, res) => {
+		const { userId } = req.params;
+		const users = await dao.findAllFollowers(userId);
+		res.json(users);
+	}
 
-	app.post("/api/users", createUser);
-	app.get("/api/users", findAllUsers);
-	app.get("/api/users/:userId", findUserById);
-	app.put("/api/users/:userId", updateUser);
-	app.delete("/api/users/:userId", deleteUser);
+	app.post("/api/users", createUser);//
+	app.get("/api/users", findAllUsers);//
+	app.get("/api/users/:userId", findUserById);//
+	app.put("/api/users/:userId", updateUser);//
+	app.delete("/api/users/:userId", deleteUser);//
 	app.post("/api/users/signup", signup);
 	app.post("/api/users/signin", signin);
 	app.post("/api/users/signout", signout);
 	app.post("/api/users/account", account);
 	app.post("/api/users/:userId/follow", follow);
+	app.post("/api/users/:userId/unfollow", unfollow);
+	app.get("/api/users/:userId/likedRecipes", findAllLikedRecipes);
+	app.post("/api/users/:userId/likedRecipes", addLike);
+	app.delete("/api/users/:userId/likedRecipes", deleteLike);
+	app.get("/api/users/:userId/following", findFollowing);
+	app.get("/api/users/:userId/followers", findFollowers);
+
 }
 export default UserRoutes;

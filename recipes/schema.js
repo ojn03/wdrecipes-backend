@@ -10,14 +10,21 @@ const recipeSchema = new mongoose.Schema(
 			}
 		],
 
-		likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }], // use $addToSet to add to this array to avoid duplicates
+		likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],
+		createdAt: {
+			type: Date,
+			default: Date.now()
+		},
 		comments: [
 			{
-				
 				text: { type: String, trim: true },
-				author: { type: mongoose.Schema.Types.ObjectId, ref: "users" }
+				author: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+				createdAt: {
+					type: Date,
+					default: Date.now()
+				}
 			}
-		]
+		],
 	},
 	{ collection: "recipes" }
 );

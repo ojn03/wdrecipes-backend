@@ -2,7 +2,6 @@ import UserRoutes from "./users/routes.js";
 import RecipeRoutes from "./recipes/routes.js";
 import cors from "cors";
 import "dotenv/config";
-import UserRoutes from "./users/routes.js";
 import mongoose from "mongoose";
 import session from "express-session";
 import express from "express";
