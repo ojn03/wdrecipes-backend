@@ -41,8 +41,6 @@ export const follow = (userId, followId) => {
 userId = new mongoose.Types.ObjectId(userId);
 followId = new mongoose.Types.ObjectId(followId);
 
-console.log(followId);
-console.log(userId);
 	UserModel.updateOne({ _id: userId }, { $addToSet: { following: followId } }).then((error) => console.log(error));;
 	Chef.updateOne({ _id: followId }, { $addToSet: { followers: userId } }).then((error) => console.log(error));
 };

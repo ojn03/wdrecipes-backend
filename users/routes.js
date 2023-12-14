@@ -100,10 +100,8 @@ function UserRoutes(app) {
 
 			const { type } = req.body;
 			if (type == "chef") {
-				console.log("here 102");
 				delete req.body.type;
 				const chef = await dao.addChef(req.body);
-				console.log("here 104");
 				req.session["currentUser"] = chef;
 				res.json(chef);
 			} else {
@@ -197,6 +195,7 @@ function UserRoutes(app) {
 	app.get("/api/users", findAllUsers);
 	app.get("/api/users/chef", findAllChefs);
 	app.get("/api/users/basicUser", findAllBasicUsers);
+	app.get("/api/users/account", account);
 	app.get("/api/users/:userId", findUserById);
 	app.put("/api/users/:userId", updateUser);
 	app.put("/api/users/chef/:chefId", updateChef);
@@ -205,7 +204,6 @@ function UserRoutes(app) {
 	app.post("/api/users/signup", signup);
 	app.post("/api/users/signin", signin);
 	app.post("/api/users/signout", signout);
-	app.post("/api/users/account", account);
 	app.post("/api/users/:userId/follow", follow);
 
 	app.post("/api/users/:userId/unfollow", unfollow);
