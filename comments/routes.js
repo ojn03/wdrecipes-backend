@@ -94,7 +94,7 @@ export default function CommentRoutes(app) {
 	app.get("/api/comments", findAllComments);
 	app.get("/api/comments/:commentId", findCommentById);
 	app.get("/api/comments/author/:authorId", findCommentsByAuthorId);
-	app.post("/api/comments/recipe/:recipeId", findCommentsByRecipeId);
+	app.get("/api/comments/recipe/:recipeId", findCommentsByRecipeId);
 
 	app.post("/api/comments/", addComment);
 	app.put("/api/comments/:commentId", updateComment);
