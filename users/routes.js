@@ -151,6 +151,8 @@ function UserRoutes(app) {
 			const { currentUser } = req.session;
 			// console.log(currentUser);
 			const status = await dao.follow(currentUser._id, userId);
+			const currentUser = await dao.findUserById(currentUser._id);
+			req.session["currentUser"] = currentUser;
 
 			// add to following
 			res.json(status);
@@ -165,6 +167,8 @@ function UserRoutes(app) {
 			const { currentUser } = req.session;
 
 			const status = await dao.unfollow(currentUser._id, userId);
+			const currentUser = await dao.findUserById(currentUser._id);
+			req.session["currentUser"] = currentUser;
 			res.json(status);
 		} catch (error) {
 			res.status(500).send(error);
