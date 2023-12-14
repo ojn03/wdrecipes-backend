@@ -22,17 +22,15 @@ const UserModel = mongoose.model("User", baseUserSchema);
 
 const BasicUser = UserModel.discriminator(
 	"Basic",
-	new mongoose.Schema({ experience: Number })
+	new mongoose.Schema({ experience: { type: Number, required: true } })
 );
 
 const Chef = UserModel.discriminator(
 	"Chef",
 	new mongoose.Schema({
-		restaurant: String,
+		restaurant: { type: String, required: true },
 		followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }]
 	})
 );
 
-export  {UserModel, BasicUser, Chef};
-
-
+export { UserModel, BasicUser, Chef };

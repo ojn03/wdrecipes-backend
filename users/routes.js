@@ -69,6 +69,17 @@ function UserRoutes(app) {
 			res.status(500).send(error);
 		}
 	};
+
+	const updateChef = async (req, res) => {
+		try {
+			const { chefId } = req.params;
+			const status = await dao.updateChef(chefId, req.body);
+			res.json(status);
+		} catch (error) {
+			res.status(500).send(error);
+		}
+	};
+
 	const signup = async (req, res) => {
 		try {
 			const user = await dao.findUserByUsername(req.body.username);
@@ -156,6 +167,8 @@ function UserRoutes(app) {
 	app.get("/api/users/basicUser", findAllBasicUsers);
 	app.get("/api/users/:userId", findUserById);
 	app.put("/api/users/:userId", updateUser);
+	app.put("/api/users/chef/:chefId", updateChef);
+
 	app.delete("/api/users/:userId", deleteUser);
 	app.post("/api/users/signup", signup);
 	app.post("/api/users/signin", signin);
