@@ -38,7 +38,7 @@ export const deleteUser = (userId) => UserModel.deleteOne({ _id: userId });
 
 export const follow = (userId, followId) => {
 
-	UserModel.updateOne({ _id: userId }, { $addToSet: { following: followId } });
+	BasicUser.updateOne({ _id: userId }, { $push: { following: followId } });
 	Chef.updateOne({ _id: followId }, { $addToSet: { followers: userId } });
 };
 

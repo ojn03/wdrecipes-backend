@@ -80,6 +80,16 @@ function UserRoutes(app) {
 		}
 	};
 
+	const updateBasicUser = async (req, res) => {
+		try {
+			const { basicUserId } = req.params;
+			const status = await dao.updateBasicUser(basicUserId, req.body);
+			res.json(status);
+		} catch (error) {
+			res.status(500).send(error);
+		}
+	};
+
 	const signup = async (req, res) => {
 		try {
 			const user = await dao.findUserByUsername(req.body.username);
@@ -97,8 +107,11 @@ function UserRoutes(app) {
 		try {
 			const { username, password } = req.body;
 			const currentUser = await dao.findUserByCredentials(username, password);
-			req.session["currentUser"] = currentUser;
-			res.json(currentUser);
+			if (!currentUser) {
+				res.status(400).json({ message: "Invalid credentials" });
+			}else{req.session["currentUser"] = currentUser;
+			res.json(currentUser);}
+
 		} catch (error) {
 			res.status(500).send(error);
 		}
@@ -121,7 +134,8 @@ function UserRoutes(app) {
 	const follow = async (req, res) => {
 		try {
 			const { userId } = req.params;
-			const { currentUser } = req.session;
+			const currentUser  = {_id: "657ab7496cd755a74d001dad"}//req.session;
+			console.log(currentUser);
 			const status = await dao.follow(currentUser._id, userId);
 			// add to following
 			res.json(status);
@@ -133,6 +147,7 @@ function UserRoutes(app) {
 		try {
 			const { userId } = req.params;
 			const { currentUser } = req.session;
+			
 			const status = await dao.unfollow(currentUser._id, userId);
 			// remove from following
 			res.json(status);
@@ -168,13 +183,14 @@ function UserRoutes(app) {
 	app.get("/api/users/:userId", findUserById);
 	app.put("/api/users/:userId", updateUser);
 	app.put("/api/users/chef/:chefId", updateChef);
-
+	app.put("/api/users/basicUser/:basicUserId", updateBasicUser);
 	app.delete("/api/users/:userId", deleteUser);
 	app.post("/api/users/signup", signup);
 	app.post("/api/users/signin", signin);
 	app.post("/api/users/signout", signout);
 	app.post("/api/users/account", account);
 	app.post("/api/users/:userId/follow", follow);
+
 	app.post("/api/users/:userId/unfollow", unfollow);
 	app.get("/api/users/:userId/following", findFollowing);
 	app.get("/api/users/:userId/followers", findFollowers);
