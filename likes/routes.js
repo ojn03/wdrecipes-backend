@@ -43,7 +43,7 @@ export default function LikeRoutes(app) {
 	const addLike = async (req, res) => {
 		try {
 			const { recipeId, authorId } = req.body;
-			const like = { text, authorId, recipeId };
+			const like = {authorId, recipeId };
 			const status = await dao.addLike(like);
 			res.json(status);
 		} catch (error) {
