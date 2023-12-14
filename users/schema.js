@@ -12,7 +12,7 @@ const baseUserSchema = new mongoose.Schema(
 		first: String,
 		last: String,
 
-		// can only follow chefs
+		// can only follow Chefs
 		following: [{ type: mongoose.Schema.Types.ObjectId, ref: "Chef" }]
 	},
 	baseOptions
@@ -20,12 +20,12 @@ const baseUserSchema = new mongoose.Schema(
 
 const UserModel = mongoose.model("User", baseUserSchema);
 
-const basicUser = UserModel.discriminator(
+const BasicUser = UserModel.discriminator(
 	"Basic",
 	new mongoose.Schema({ experience: Number })
 );
 
-const chef = UserModel.discriminator(
+const Chef = UserModel.discriminator(
 	"Chef",
 	new mongoose.Schema({
 		restaurant: String,
@@ -33,6 +33,6 @@ const chef = UserModel.discriminator(
 	})
 );
 
-export  {UserModel, basicUser, chef};
+export  {UserModel, BasicUser, Chef};
 
 

@@ -1,53 +1,59 @@
-import model from "./model.js";
-export const createUser = (user) => model.create(user);
+import { UserModel, Chef, BasicUser } from "./schema.js";
+// export const addUser = (user) => UserModel.create(user);
+export const addChef = (chef) => Chef.create(chef);
+export const addBasicUser = (basicUser) => BasicUser.create(basicUser);
 
-export const findAllUsers = () => model.find();
+export const findAllUsers = () => UserModel.find();
+export const findAllChefs = () => Chef.find();
+export const findAllBasicUsers = () => BasicUser.find();
 
-export const findUserById = (userId) => model.findById(userId);
+// export const findChefById = (chefId) => Chef.findById(chefId);
+// export const findBasicUserById = (basicUserId) =>
+// 	BasicUser.findById(basicUserId);
+
+// export const findChefByUsername = (username) => Chef.find({ username });
+// export const findBasicUserByUsername = (username) =>
+// 	BasicUser.find({ username });
+
+export const updateBasicUser = (basicUserId, basicUser) =>
+	BasicUser.updateOne({ _id: basicUserId }, { $set: basicUser });
+
+export const updateChef = (chefId, chef) =>
+	Chef.updateOne({ _id: chefId }, { $set: chef });
+Chef.updateOne({ _id: chefId }, { $set: chef });
+
+
+export const findUserById = (userId) => UserModel.findById(userId);
 
 export const findUserByUsername = (username) =>
-	model.findOne({ username: username });
+	UserModel.findOne({ username: username });
 
 export const findUserByCredentials = (username, password) =>
-	model.findOne({ username, password });
+	UserModel.findOne({ username, password });
 
 export const updateUser = (userId, user) =>
-	model.updateOne({ _id: userId }, { $set: user });
+	UserModel.updateOne({ _id: userId }, { $set: user });
 
-
-    //cascade delete all references to user
-export const deleteUser = (userId) => model.deleteOne({ _id: userId });
+//cascade delete all references to user
+export const deleteUser = (userId) => UserModel.deleteOne({ _id: userId });
 
 export const follow = (userId, followId) => {
-	model.updateOne({ _id: userId }, { $addToSet: { following: followId } });
-	model.updateOne({ _id: followId }, { $addToSet: { followers: userId } });
+
+	UserModel.updateOne({ _id: userId }, { $addToSet: { following: followId } });
+	Chef.updateOne({ _id: followId }, { $addToSet: { followers: userId } });
 };
 
 export const unfollow = (userId, unfollowId) => {
-	model.updateOne({ _id: userId }, { $pull: { following: unfollowId } });
-	model.updateOne({ _id: unfollowId }, { $pull: { followers: userId } });
+	UserModel.updateOne({ _id: userId }, { $pull: { following: unfollowId } });
+	Chef.updateOne({ _id: unfollowId }, { $pull: { followers: userId } });
 };
 
-export const likeRecipe = (userId, recipeId) =>
-	model.updateOne({ _id: userId }, { $addToSet: { likedRecipes: recipeId } });
-
-export const unlikeRecipe = (userId, recipeId) =>
-	model.updateOne({ _id: userId }, { $pull: { likedRecipes: recipeId } });
-
-export const findAllLikedRecipes = (userId) =>
-	model
-		.findById(userId)
-		.populate("likedRecipes")
-		.then((user) => user.likedRecipes);
-
 export const findAllFollowing = (userId) =>
-	model
-		.findById(userId)
+	UserModel.findById(userId)
 		.populate("following")
 		.then((user) => user.following);
 
 export const findAllFollowers = (userId) =>
-	model
-		.findById(userId)
+	Chef.findById(userId)
 		.populate("followers")
 		.then((user) => user.followers);

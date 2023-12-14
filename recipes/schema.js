@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
 const recipeSchema = new mongoose.Schema(
 	{
-		apiID: String
+		//API ID
+		recipeID: String
 	},
-	{ collection: "Recipe" }
+	{ collection: "Recipe", _id: false }
 );
 
 
