@@ -1,52 +1,84 @@
 import * as dao from "./dao.js";
 export default function LikeRoutes(app) {
 	const findAllLikes = async (req, res) => {
-		const likes = await dao.findAllLikes();
-		res.json(likes);
+		try {
+			const likes = await dao.findAllLikes();
+			res.json(likes);
+		} catch (error) {
+			res.status(500).send(error);
+		}
 	}; //
 
 	const findLikeById = async (req, res) => {
-		const { likeId } = req.params;
-		const like = await dao.findLikeById(likeId);
-		res.json(like);
+		try {
+			const { likeId } = req.params;
+			const like = await dao.findLikeById(likeId);
+			res.json(like);
+		} catch (error) {
+			res.status(500).send(error);
+		}
 	}; //
 
 	const findLikesByAuthorId = async (req, res) => {
-		const { authorId } = req.params;
-		const likes = await dao.findLikesByAuthorId(authorId);
-		res.json(likes);
+		try {
+			const { authorId } = req.params;
+			const likes = await dao.findLikesByAuthorId(authorId);
+			res.json(likes);
+		} catch (error) {
+			res.status(500).send(error);
+		}
 	}; //
 
 	const findLikesByRecipeId = async (req, res) => {
-		const { recipeId } = req.params;
-		const likes = await dao.findLikesByRecipeId(recipeId);
-		res.json(likes);
+		try {
+			const { recipeId } = req.params;
+			const likes = await dao.findLikesByRecipeId(recipeId);
+			res.json(likes);
+		} catch (error) {
+			res.status(500).send(error);
+		}
 	}; //
 
 	const addLike = async (req, res) => {
-		const { recipeId } = req.params;
-		const { text, authorId } = req.body;
-		const like = { text, authorId, recipeId };
-		const status = await dao.addLike(like);
-		res.json(status);
+		try {
+			const { recipeId } = req.params;
+			const { text, authorId } = req.body;
+			const like = { text, authorId, recipeId };
+			const status = await dao.addLike(like);
+			res.json(status);
+		} catch (error) {
+			res.status(500).send(error);
+		}
 	}; //
 
 	const deleteLike = async (req, res) => {
-		const { likeId } = req.params;
-		const status = await dao.deleteLike(likeId);
-		res.json(status);
+		try {
+			const { likeId } = req.params;
+			const status = await dao.deleteLike(likeId);
+			res.json(status);
+		} catch (error) {
+			res.status(500).send(error);
+		}
 	}; //
 
 	const deleteLikesByAuthorId = async (req, res) => {
-		const { authorId } = req.params;
-		const status = await dao.deleteLikesByAuthorId(authorId);
-		res.json(status);
+		try {
+			const { authorId } = req.params;
+			const status = await dao.deleteLikesByAuthorId(authorId);
+			res.json(status);
+		} catch (error) {
+			res.status(500).send(error);
+		}
 	};
 
 	const deleteLikesByRecipeId = async (req, res) => {
-		const { recipeId } = req.params;
-		const status = await dao.deleteLikesByRecipeId(recipeId);
-		res.json(status);
+		try {
+			const { recipeId } = req.params;
+			const status = await dao.deleteLikesByRecipeId(recipeId);
+			res.json(status);
+		} catch (error) {
+			res.status(500).send(error);
+		}
 	};
 
 	app.get("/api/likes", findAllLikes);
