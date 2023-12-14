@@ -1,5 +1,6 @@
 import * as dao from "./dao.js";
 export default function LikeRoutes(app) {
+
 	const findAllLikes = async (req, res) => {
 		try {
 			const likes = await dao.findAllLikes();
@@ -7,7 +8,7 @@ export default function LikeRoutes(app) {
 		} catch (error) {
 			res.status(500).send(error);
 		}
-	}; //
+	}; 
 
 	const findLikeById = async (req, res) => {
 		try {
@@ -49,7 +50,7 @@ export default function LikeRoutes(app) {
 		} catch (error) {
 			res.status(500).send(error);
 		}
-	}; //
+	}; 
 
 	const deleteLike = async (req, res) => {
 		try {
@@ -84,9 +85,9 @@ export default function LikeRoutes(app) {
 	app.get("/api/likes", findAllLikes);
 	app.get("/api/likes/:likeId", findLikeById);
 	app.get("/api/likes/author/:authorId", findLikesByAuthorId);
-
-	app.post("/api/likes/recipe/:recipeId", findLikesByRecipeId);
-	app.post("/api/likes/", addLike);
+    app.get("/api/likes/recipe/:recipeId", findLikesByRecipeId);
+	
+    app.post("/api/likes/", addLike);
 
 	app.delete("/api/likes/:likeId", deleteLike);
 	app.delete("/api/likes/author/:authorId", deleteLikesByAuthorId);

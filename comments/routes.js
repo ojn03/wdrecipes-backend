@@ -41,8 +41,7 @@ export default function CommentRoutes(app) {
 
 	const addComment = async (req, res) => {
 		try {
-			const { recipeId } = req.params;
-			const { text, authorId } = req.body;
+			const { text, authorId, recipeId } = req.body;
 			const comment = { text, authorId, recipeId };
 			const status = await dao.addComment(comment);
 			res.json(status);

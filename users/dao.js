@@ -20,7 +20,6 @@ export const updateBasicUser = (basicUserId, basicUser) =>
 
 export const updateChef = (chefId, chef) =>
 	Chef.updateOne({ _id: chefId }, { $set: chef });
-Chef.updateOne({ _id: chefId }, { $set: chef });
 
 
 export const findUserById = (userId) => UserModel.findById(userId);

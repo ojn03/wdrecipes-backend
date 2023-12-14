@@ -1,5 +1,7 @@
 import UserRoutes from "./users/routes.js";
-import RecipeRoutes from "./recipes/routes.js";
+import LikeRoutes from "./likes/routes.js";
+// import RecipeRoutes from "./recipes/routes.js";
+import CommentRoutes from "./comments/routes.js";
 import cors from "cors";
 import "dotenv/config";
 import mongoose from "mongoose";
@@ -33,6 +35,9 @@ app.use(session(sessionOptions));
 app.use(express.json());
 app.get("/", (req, res) => res.send("Hello World!"));
 UserRoutes(app);
-RecipeRoutes(app);
+LikeRoutes(app);
+CommentRoutes(app);
+
+// RecipeRoutes(app);
 
 app.listen(PORT);
