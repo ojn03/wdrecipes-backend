@@ -96,22 +96,32 @@ function UserRoutes(app) {
 			if (user) {
 				res.status(400).json({ message: "Username already taken" });
 			}
-			const currentUser = await dao.addUser(req.body);
-			req.session["currentUser"] = currentUser;
-			res.json(currentUser);
+
+			const { type } = req.body;
+			if (type === "chef") {
+				const chef = await dao.addChef(req.body);
+				req.session["currentUser"] = chef;
+				res.json(chef);
+			} else {
+				const basic = await dao.addBasicUser(req.body);
+				req.session["currentUser"] = basic;
+				res.json(basic);
+			}
 		} catch (error) {
 			res.status(500).send(error);
 		}
 	};
+
 	const signin = async (req, res) => {
 		try {
 			const { username, password } = req.body;
 			const currentUser = await dao.findUserByCredentials(username, password);
 			if (!currentUser) {
 				res.status(400).json({ message: "Invalid credentials" });
-			}else{req.session["currentUser"] = currentUser;
-			res.json(currentUser);}
-
+			} else {
+				req.session["currentUser"] = currentUser;
+				res.json(currentUser);
+			}
 		} catch (error) {
 			res.status(500).send(error);
 		}
@@ -134,20 +144,22 @@ function UserRoutes(app) {
 	const follow = async (req, res) => {
 		try {
 			const { userId } = req.params;
-			const currentUser  = {_id: "657ab7496cd755a74d001dad"}//req.session;
-			console.log(currentUser);
+			const currentUser = { _id: "657ab7496cd755a74d001dad" }; //req.session;
+			// console.log(currentUser);
 			const status = await dao.follow(currentUser._id, userId);
+
 			// add to following
 			res.json(status);
 		} catch (error) {
-			res.status(500).send(error);
+			console.log(error);
+			res.status(500).json(error);
 		}
 	};
 	const unfollow = async (req, res) => {
 		try {
 			const { userId } = req.params;
 			const { currentUser } = req.session;
-			
+
 			const status = await dao.unfollow(currentUser._id, userId);
 			// remove from following
 			res.json(status);

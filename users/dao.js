@@ -6,6 +6,7 @@ export const addBasicUser = (basicUser) => BasicUser.create(basicUser);
 export const findAllUsers = () => UserModel.find();
 export const findAllChefs = () => Chef.find();
 export const findAllBasicUsers = () => BasicUser.find();
+import mongoose from "mongoose";
 
 // export const findChefById = (chefId) => Chef.findById(chefId);
 // export const findBasicUserById = (basicUserId) =>
@@ -37,9 +38,13 @@ export const updateUser = (userId, user) =>
 export const deleteUser = (userId) => UserModel.deleteOne({ _id: userId });
 
 export const follow = (userId, followId) => {
+userId = new mongoose.Types.ObjectId(userId);
+followId = new mongoose.Types.ObjectId(followId);
 
-	BasicUser.updateOne({ _id: userId }, { $push: { following: followId } });
-	Chef.updateOne({ _id: followId }, { $addToSet: { followers: userId } });
+console.log(followId);
+console.log(userId);
+	UserModel.updateOne({ _id: userId }, { $addToSet: { following: followId } }).then((error) => console.log(error));;
+	Chef.updateOne({ _id: followId }, { $addToSet: { followers: userId } }).then((error) => console.log(error));
 };
 
 export const unfollow = (userId, unfollowId) => {
