@@ -17,10 +17,10 @@ import mongoose from "mongoose";
 // 	BasicUser.find({ username });
 
 export const updateBasicUser = (basicUserId, basicUser) =>
-	BasicUser.updateOne({ _id: basicUserId }, { $set: basicUser });
+	BasicUser.updateOne({ _id: basicUserId }, { $set: basicUser }).then((error) => console.log(error));
 
 export const updateChef = (chefId, chef) =>
-	Chef.updateOne({ _id: chefId }, { $set: chef });
+	Chef.updateOne({ _id: chefId }, { $set: chef }).then((error) => console.log(error));
 
 
 export const findUserById = (userId) => UserModel.findById(userId);
@@ -32,7 +32,7 @@ export const findUserByCredentials = (username, password) =>
 	UserModel.findOne({ username, password });
 
 export const updateUser = (userId, user) =>
-	UserModel.updateOne({ _id: userId }, { $set: user });
+	UserModel.updateOne({ _id: userId }, { $set: user }).then((error) => console.log(error));
 
 //cascade delete all references to user
 export const deleteUser = (userId) => UserModel.deleteOne({ _id: userId });
@@ -48,8 +48,8 @@ console.log(userId);
 };
 
 export const unfollow = (userId, unfollowId) => {
-	UserModel.updateOne({ _id: userId }, { $pull: { following: unfollowId } });
-	Chef.updateOne({ _id: unfollowId }, { $pull: { followers: userId } });
+	UserModel.updateOne({ _id: userId }, { $pull: { following: unfollowId } }).then((error) => console.log(error));
+	Chef.updateOne({ _id: unfollowId }, { $pull: { followers: userId } }).then((error) => console.log(error));
 };
 
 export const findAllFollowing = (userId) =>
