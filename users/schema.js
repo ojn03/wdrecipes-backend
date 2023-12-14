@@ -1,22 +1,38 @@
 import mongoose from "mongoose";
-const userSchema = new mongoose.Schema(
+
+const baseOptions = {
+	discriminatorKey: "type",
+	collection: "User"
+};
+
+const baseUserSchema = new mongoose.Schema(
 	{
 		username: { type: String, required: true, unique: true },
 		password: { type: String, required: true },
 		first: String,
 		last: String,
-		
-		// email: String,
-		// dob: Date,
-		likedRecipes: [{ type: mongoose.Schema.Types.ObjectId, ref: "recipes" }], // use $addToSet to add to arrays to avoid duplicates
-		followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],
-		following: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],
 
-		createdAt: {
-			type: Date,
-			default: Date.now()
-		},
+		// can only follow chefs
+		following: [{ type: mongoose.Schema.Types.ObjectId, ref: "Chef" }]
 	},
-	{ collection: "users" }
+	baseOptions
 );
-export default userSchema;
+
+const UserModel = mongoose.model("User", baseUserSchema);
+
+const basicUser = UserModel.discriminator(
+	"Basic",
+	new mongoose.Schema({ experience: Number })
+);
+
+const chef = UserModel.discriminator(
+	"Chef",
+	new mongoose.Schema({
+		restaurant: String,
+		followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }]
+	})
+);
+
+export  {UserModel, basicUser, chef};
+
+
