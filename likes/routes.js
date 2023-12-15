@@ -1,4 +1,4 @@
-import { mongo } from "mongoose";
+import mongoose, { mongo } from "mongoose";
 import * as dao from "./dao.js";
 export default function LikeRoutes(app) {
 
@@ -54,11 +54,12 @@ export default function LikeRoutes(app) {
 
 	const deleteLike = async (req, res) => {
 		try {
-			const { authorId, recipeId } = req.body;
-			authorId = mongoose.Types.ObjectId(authorId);
+			let { recipeId, authorId } = req.body;
+			authorId = new mongoose.Types.ObjectId(authorId);
 			const status = await dao.deleteLike( authorId, recipeId );
 			res.json(status);
 		} catch (error) {
+			console.log(error);
 			res.status(500).send(error);
 		}
 	}; //
